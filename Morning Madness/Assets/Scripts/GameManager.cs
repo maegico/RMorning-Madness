@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
         get { return activeInsanityLevel; }
     }
 
-    private int day;
+    public int day;
     private int numIncorrect;
     private int numCompleted;
 
@@ -34,9 +34,19 @@ public class GameManager : MonoBehaviour {
     //did the player complete the order?
     private bool tasksCorrect;
 
+    public float wakeUpWaitTime;
+    public float gameEndWaitTime;
+
+    public bool sleeping;
+
+    float lastWakeupTime;
+    float doorTime;
+
 	// Use this for initialization
 	void Start () {
         //find all interactable objects and put them in the list
+        CutToBlack();
+        lastWakeupTime = Time.time;
         interactables = new List<GameObject>(GameObject.FindGameObjectsWithTag("interactable"));
         print("interactables: " + interactables.Count);
 
@@ -56,9 +66,31 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        if(sleeping){
+            WaitForWakeup();
+        }
 	}
+    private void WaitForWakeup()
+    {
+        if (Time.time >= doorTime + wakeUpWaitTime)
+        {
+            CutToNonBlack();
+            sleeping = false;
+        }
+    }
 
+    public void CutToBlack()
+    {
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().enabled = false;
+        doorTime = Time.time;
+        sleeping = true;
+    }
+    private void CutToNonBlack()
+    {
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().enabled = true;
+        sleeping = false;
+        lastWakeupTime = Time.time;
+    } 
     public void CompleteTask(int taskCompleted)
     {
         numCompleted++;
@@ -94,12 +126,13 @@ public class GameManager : MonoBehaviour {
             print("Complete.");
             day++;
             currentTask = 1;
+            CutToBlack();
 
             //check to see how many tasks they forgot
             numIncorrect += interactables.Count - numCompleted;
 
             //update insanity levels
-            UpdateInsanity();
+            UpdateInsanity();            
 
             print("Current Sanity Levels: Passive: " + passiveInsanityLevel + "  Active: " + activeInsanityLevel);
 

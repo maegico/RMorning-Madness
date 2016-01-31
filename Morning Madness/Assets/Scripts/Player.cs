@@ -6,8 +6,16 @@ public class Player : MonoBehaviour {
     RaycastHit hit;
     public Transform cam;
     private Vector3 playerOrigin;
+    public Transform knifeHoldPos;
+    public Transform knife;
+
+    GameManager gm;
 
 	// Use this for initialization
+    void Awake()
+    {
+        gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+    }
 	void Start () {
         Cursor.lockState = CursorLockMode.Locked;
         //nothing so far
@@ -26,6 +34,13 @@ public class Player : MonoBehaviour {
                 if (hit.collider.tag == "interactable")
                 {
                     hit.collider.GetComponent<Items>().Interacted();
+                    if(hit.collider.name == "kitchenKnife"){
+                        if(gm.day == 4){
+                            knife.parent = knifeHoldPos;
+                            knife.position = knifeHoldPos.position;
+                            knife.localEulerAngles = new Vector3(0.3477f, 119.83f, 17.4f);
+                        }
+                    }
                 }
             }
         }
@@ -40,7 +55,10 @@ public class Player : MonoBehaviour {
             }
         }
     }
+    private void PickupKnife()
+    {
 
+    }
     public void ResetPlayer()
     {
         transform.position = playerOrigin;
