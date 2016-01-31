@@ -17,7 +17,7 @@ public class Player : MonoBehaviour {
         gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 	void Start () {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         //nothing so far
 
         playerOrigin = transform.position;
@@ -44,7 +44,7 @@ public class Player : MonoBehaviour {
                 }
             }
         }
-        if(Input.GetKeyDown(KeyCode.Escape)){
+        /*if(Input.GetKeyDown(KeyCode.Escape)){
             if (Cursor.lockState == CursorLockMode.Locked)
             {
                 Cursor.lockState = CursorLockMode.None;
@@ -53,7 +53,7 @@ public class Player : MonoBehaviour {
             {
                 Cursor.lockState = CursorLockMode.Locked;
             }
-        }
+        }*/
     }
     private void PickupKnife()
     {

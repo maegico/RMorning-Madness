@@ -51,6 +51,8 @@ public class Items : MonoBehaviour {
                 if (locations[gm.PassiveInsanityLevel] != null)
                 {
                     transform.position = locations[gm.PassiveInsanityLevel].position;
+                    // Changes the rotation [Experimental]
+                    transform.rotation = locations[gm.PassiveInsanityLevel].rotation;
                 }
             }
             else
@@ -58,6 +60,8 @@ public class Items : MonoBehaviour {
                 if (locations[gm.ActiveInsanityLevel - 1] != null)
                 {
                     transform.position = locations[gm.ActiveInsanityLevel - 1].position;
+                    // Changes the rotation [Experimental]
+                    transform.rotation = locations[gm.PassiveInsanityLevel - 1].rotation;
                 }
             }
         }
@@ -72,6 +76,14 @@ public class Items : MonoBehaviour {
             used = true;
             print("I poked a " + gameObject.name);
             gm.CompleteTask(taskNumber);
+            if(GetComponent<AudioSource>() != null)
+            {
+                GetComponent<AudioSource>().Play();
+            }
+            if(gameObject.name == "kitchenKnife")
+            {
+                Application.Quit();
+            }
         }
     }
 }

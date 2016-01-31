@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour {
     float lastWakeupTime;
     float doorTime;
 
+    public Transform clcok;
+
 	// Use this for initialization
 	void Start () {
         //find all interactable objects and put them in the list
@@ -81,13 +83,15 @@ public class GameManager : MonoBehaviour {
 
     public void CutToBlack()
     {
-        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().enabled = false;
+        // GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().enabled = false;
+        GetComponent<AudioSource>().Play();
+        clcok.GetComponent<AudioSource>().PlayDelayed(12);
         doorTime = Time.time;
         sleeping = true;
     }
     private void CutToNonBlack()
     {
-        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().enabled = true;
+        // GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().enabled = true;
         sleeping = false;
         lastWakeupTime = Time.time;
     } 
